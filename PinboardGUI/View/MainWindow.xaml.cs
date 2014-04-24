@@ -27,7 +27,7 @@ namespace PinboardGUI
         {
             InitializeComponent();
 
-            ViewModel = new PinboardViewModel(Dispatcher, "jasonsch:6B25F349DEC58CCA34F3");
+            ViewModel = new PinboardViewModel(Dispatcher, "");
             this.DataContext = ViewModel;
         }
     }
