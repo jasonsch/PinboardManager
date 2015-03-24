@@ -27,7 +27,7 @@ namespace Pinboard.Test
         public void TestUpdateTimeStamp()
         {
             DateTime UpdateTime = Pinboard.GetLastUpdateDate().Result;
-            Assert.IsTrue(UpdateTime == new DateTime(1977, 8, 10).ToLocalTime());
+            Assert.IsTrue(UpdateTime == RequestObject.ReferenceDate.ToLocalTime());
         }
 
         [TestMethod]

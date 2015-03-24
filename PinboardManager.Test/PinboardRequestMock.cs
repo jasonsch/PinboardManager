@@ -22,13 +22,14 @@ namespace Pinboard.Test
         public PinboardSuggestedTags ReferenceSuggestedTags { get; private set; }
         public List<PinboardCountedTag> ReferenceTags { get; private set; }
         public List<PinboardNote> ReferenceNotes { get; private set; }
+        public readonly DateTime ReferenceDate = new DateTime(1977, 8, 10);
 
         public PinboardRequestMock()
         {
             ReferenceBookmark = new PinboardBookmark("http://www.test.com/", "This is the title", "This is the description");
             ReferenceBookmark.AddTag("tag1");
             ReferenceBookmark.AddTag("tag2");
-            ReferenceBookmark.CreationTime = new DateTime(1977, 8, 10);
+            ReferenceBookmark.CreationTime = ReferenceDate;
             ReferenceBookmark.Shared = true;
             ReferenceBookmark.ToRead = false;
 
