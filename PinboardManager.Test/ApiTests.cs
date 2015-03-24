@@ -13,13 +13,13 @@ namespace Pinboard.Test
     public partial class PinboardTests
     {
         private PinboardManager Pinboard;
-        private PinboardRequestMoq RequestObject;
+        private PinboardRequestMock RequestObject;
         private const string TestBookmarkURL = "http://www.test.com/";
 
         [TestInitialize]
         public void TestSetup()
         {
-            RequestObject = new PinboardRequestMoq();
+            RequestObject = new PinboardRequestMock();
             Pinboard = new PinboardManager(RequestObject);
         }
 

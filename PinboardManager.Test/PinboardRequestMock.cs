@@ -8,7 +8,7 @@ using Pinboard;
 
 namespace Pinboard.Test
 {
-    class PinboardRequestMoq : IPinboardRequest
+    class PinboardRequestMock : IPinboardRequest
     {
         private string API;
         private Dictionary<string, string> Parameters;
@@ -23,7 +23,7 @@ namespace Pinboard.Test
         public List<PinboardCountedTag> ReferenceTags { get; private set; }
         public List<PinboardNote> ReferenceNotes { get; private set; }
 
-        public PinboardRequestMoq()
+        public PinboardRequestMock()
         {
             ReferenceBookmark = new PinboardBookmark("http://www.test.com/", "This is the title", "This is the description");
             ReferenceBookmark.AddTag("tag1");
