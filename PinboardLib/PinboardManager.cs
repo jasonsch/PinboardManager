@@ -17,21 +17,12 @@ namespace Pinboard
         public const string AddBookmarkErrorString = "item already exists";
 
         /// <summary>
-        /// Constructs a new PinboardManager object using the specified user's credentials.
+        /// Constructs a new PinboardManager object using the specified user's account and password.
         /// </summary>
         /// <param name="UserName">The user's user name.</param>
         /// <param name="Password">The user's password.</param>
-        /// <param name="RequestObject">Allows a mock transport object to be used for testing. This parameter should be ignored for production code.</param>
-        public PinboardManager(string UserName, string Password, IPinboardRequest RequestObject = null)
+        public PinboardManager(string UserName, string Password) : this(new PinboardRequest(UserName, Password))
         {
-            if (RequestObject == null)
-            {
-                this.RequestObject = new PinboardRequest(UserName, Password);
-            }
-            else
-            {
-                this.RequestObject = RequestObject;
-            }
         }
 
         /// <summary>
@@ -39,17 +30,13 @@ namespace Pinboard
         /// user's settings page (under the "password" tab).
         /// </summary>
         /// <param name="ApiToken">A string of the form "username:hexvalues".</param>
-        /// <param name="RequestObject">Allows a mock transport object to be used for testing. This parameter should be ignored for production code.</param>
-        public PinboardManager(string ApiToken, IPinboardRequest RequestObject = null)
+        public PinboardManager(string ApiToken) : this(new PinboardRequest(ApiToken))
         {
-            if (RequestObject == null)
-            {
-                this.RequestObject = new PinboardRequest(ApiToken);
-            }
-            else
-            {
-                this.RequestObject = RequestObject;
-            }
+        }
+
+        internal PinboardManager(IPinboardRequest RequestObject = null)
+        {
+             this.RequestObject = RequestObject;
         }
 
         /// <summary>
@@ -594,12 +581,12 @@ namespace Pinboard
             }
         }
 
-        public static string ConvertTimestamp(DateTime dt)
+        internal static string ConvertTimestamp(DateTime dt)
         {
             return dt.ToString("s") + "Z";
         }
 
-        public static string FormatTags(List<string> TagList)
+        internal static string FormatTags(List<string> TagList)
         {
             return string.Join(",", TagList);
         }

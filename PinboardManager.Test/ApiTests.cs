@@ -20,19 +20,7 @@ namespace Pinboard.Test
         public void TestSetup()
         {
             RequestObject = new PinboardRequestMoq();
-            Pinboard = new PinboardManager("APITOKEN", RequestObject);
-        }
-
-        [TestMethod]
-        public void TestTagsAreKeptSorted()
-        {
-            PinboardBookmark bookmark = new PinboardBookmark(TestBookmarkURL, "Title");
-
-            bookmark.AddTag("Tag3");
-            bookmark.AddTag("Tag2");
-            bookmark.AddTag("Tag1");
-
-            Assert.IsTrue(bookmark.Tags == "Tag1,Tag2,Tag3");
+            Pinboard = new PinboardManager(RequestObject);
         }
 
         [TestMethod]
