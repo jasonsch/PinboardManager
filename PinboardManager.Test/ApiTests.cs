@@ -10,7 +10,7 @@ namespace Pinboard.Test
     /// This tests the 
     /// </summary>
     [TestClass]
-    public class ApiTests
+    public partial class PinboardTests
     {
         private PinboardManager Pinboard;
         private PinboardRequestMoq RequestObject;

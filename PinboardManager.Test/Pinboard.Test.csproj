@@ -55,6 +55,7 @@
     <Compile Include="PinboardRequestMoq.cs" />
     <Compile Include="ApiTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PinboardBookmarkTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PinboardLib\Pinboard.csproj">
