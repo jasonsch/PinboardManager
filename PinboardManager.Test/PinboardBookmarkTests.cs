@@ -15,7 +15,7 @@ namespace Pinboard.Test
             bookmark.AddTag("Tag2");
             bookmark.AddTag("Tag1");
 
-            Assert.IsTrue(bookmark.Tags == "Tag1,Tag2,Tag3");
+            Assert.IsTrue(bookmark.TagString == "Tag1,Tag2,Tag3");
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace Pinboard.Test
             bookmark.AddTag("Tag1");
             bookmark.RemoveTag("Tag2");
 
-            Assert.IsTrue(bookmark.Tags == "Tag1,Tag3");
+            Assert.IsTrue(bookmark.TagString == "Tag1,Tag3");
         }
     }
 }

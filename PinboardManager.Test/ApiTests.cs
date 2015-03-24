@@ -86,7 +86,7 @@ namespace Pinboard.Test
             Assert.IsTrue(bookmark.CreationTime == RequestObject.ReferenceBookmark.CreationTime.ToLocalTime());
             Assert.IsTrue(bookmark.ToRead == RequestObject.ReferenceBookmark.ToRead);
             Assert.IsTrue(bookmark.Shared == RequestObject.ReferenceBookmark.Shared);
-            Assert.IsTrue(bookmark.Tags == RequestObject.ReferenceBookmark.Tags);
+            Assert.IsTrue(bookmark.TagString == RequestObject.ReferenceBookmark.TagString);
         }
 
         [TestMethod]

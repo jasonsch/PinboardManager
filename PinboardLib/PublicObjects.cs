@@ -47,7 +47,7 @@ namespace Pinboard
 
     public class PinboardBookmark
     {
-        public List<string> TagList { get; private set; }
+        private readonly List<string> TagList;
         public string URL { get; private set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -95,11 +95,18 @@ namespace Pinboard
             }
         }
 
-        public string Tags
+        public string TagString
         {
             get
             {
                 return PinboardManager.FormatTags(TagList);
+            }
+        }
+        public string[] Tags
+        {
+            get
+            {
+                return TagList.ToArray();
             }
         }
 

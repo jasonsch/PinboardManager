@@ -238,7 +238,7 @@ namespace Pinboard.Test
                 Bookmark["time"] = ConvertTimestamp(ReferenceBookmark.CreationTime);
                 Bookmark["shared"] = PinboardStringFromBool(ReferenceBookmark.Shared);
                 Bookmark["toread"] = PinboardStringFromBool(ReferenceBookmark.ToRead);
-                Bookmark["tags"] = ReferenceBookmark.Tags;
+                Bookmark["tags"] = ReferenceBookmark.TagString;
                 hash["posts"] = array;
             }
 
@@ -310,7 +310,7 @@ namespace Pinboard.Test
             Bookmark["time"] = ConvertTimestamp(ReferenceBookmark.CreationTime);
             Bookmark["shared"] = PinboardStringFromBool(ReferenceBookmark.Shared);
             Bookmark["toread"] = PinboardStringFromBool(ReferenceBookmark.ToRead);
-            Bookmark["tags"] = ReferenceBookmark.Tags;
+            Bookmark["tags"] = ReferenceBookmark.TagString;
             PostList [0] = Bookmark;
             ObjectHash["posts"] = PostList;
 
@@ -329,7 +329,7 @@ namespace Pinboard.Test
             Bookmark["time"] = ConvertTimestamp(ReferenceBookmark.CreationTime);
             Bookmark["shared"] = PinboardStringFromBool(ReferenceBookmark.Shared);
             Bookmark["toread"] = PinboardStringFromBool(ReferenceBookmark.ToRead);
-            Bookmark["tags"] = ReferenceBookmark.Tags;
+            Bookmark["tags"] = ReferenceBookmark.TagString;
             array[0] = Bookmark;
 
             return JSSerializer.Serialize(array);

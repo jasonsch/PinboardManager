@@ -266,7 +266,7 @@ namespace Pinboard
             RequestObject.AddParameter("url", Bookmark.URL);
             RequestObject.AddParameter("description", Bookmark.Title);
             RequestObject.AddParameter("extended", Bookmark.Description);
-            RequestObject.AddParameter("tags", Bookmark.Tags);
+            RequestObject.AddParameter("tags", Bookmark.TagString);
             RequestObject.AddParameter("dt", ConvertTimestamp(Bookmark.CreationTime));
             RequestObject.AddParameter("replace", BoolToString(ReplaceExisting));
             RequestObject.AddParameter("shared", BoolToString(Bookmark.Shared));
