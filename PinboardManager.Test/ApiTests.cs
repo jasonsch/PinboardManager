@@ -92,13 +92,13 @@ namespace Pinboard.Test
         [TestMethod]
         public void TestGetBookmarksByDate()
         {
-            // TODO
+            throw new NotImplementedException();
         }
 
         [TestMethod]
         public void TestGetBookmarksByTags()
         {
-            // TODO
+            throw new NotImplementedException();
         }
 
         [TestMethod]
@@ -133,29 +133,25 @@ namespace Pinboard.Test
         [TestMethod]
         public void TestRecentPostsWithCountNoTag()
         {
-            List<PinboardBookmark> Bookmarks = Pinboard.GetRecentBookmarks(15).Result;
-            // TODO
+            throw new NotImplementedException();
         }
 
         [TestMethod]
         public void TestRecentPostsWithCountWithTag()
         {
-            List<PinboardBookmark> Bookmarks = Pinboard.GetRecentBookmarks(15).Result;
-            // TODO
+            throw new NotImplementedException();
         }
 
         [TestMethod]
         public void TestPostsRecentWithNoCountWithTag()
         {
-            List<PinboardBookmark> Bookmarks = Pinboard.GetRecentBookmarks(15).Result;
-            // TODO
+            throw new NotImplementedException();
         }
 
         [TestMethod]
         public void TestPostsRecentWithNoCountWithNoTag()
         {
-            List<PinboardBookmark> Bookmarks = Pinboard.GetRecentBookmarks(15).Result;
-            // TODO
+            throw new NotImplementedException();
         }
 
         [TestMethod]
@@ -172,7 +168,7 @@ namespace Pinboard.Test
         [TestMethod]
         public void TestTagSuggestionsWithURL()
         {
-            PinboardSuggestedTags tags = Pinboard.GetSuggestedTags("http://www.test.com/").Result; // TODO -- This URL shouldn't be hard-coded
+            PinboardSuggestedTags tags = Pinboard.GetSuggestedTags(RequestObject.ReferenceSuggestedTagsURL).Result;
 
             Assert.IsTrue(tags.popular.Length == RequestObject.ReferenceSuggestedTags.popular.Length);
             Assert.IsTrue(tags.recommended.Length == RequestObject.ReferenceSuggestedTags.recommended.Length);
@@ -190,17 +186,31 @@ namespace Pinboard.Test
         }
 
         [TestMethod]
-        public void TestDeleteTag() // TODO -- Another function that calls with ""?
+        public void TestDeleteValidTag()
         {
             bool b = Pinboard.DeleteTag("tag1").Result;
             Assert.IsTrue(b);
         }
 
         [TestMethod]
-        public void TestRenameTag() // TODO -- Another function that calls with ""?
+        public void TestDeleteInvalidTag()
+        {
+            bool b = Pinboard.DeleteTag("").Result;
+            Assert.IsFalse(b);
+        }
+
+        [TestMethod]
+        public void TestRenameTagValid()
         {
             bool b = Pinboard.RenameTag("tag1", "tag2").Result;
             Assert.IsTrue(b);
+        }
+
+        [TestMethod]
+        public void TestRenameInvalidTag()
+        {
+            bool b = Pinboard.RenameTag("sjflsdj", "tag2").Result;
+            Assert.IsFalse(b);
         }
 
         [TestMethod]

@@ -63,6 +63,9 @@
       <Name>Pinboard</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="JSON\accesstoken1.txt" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

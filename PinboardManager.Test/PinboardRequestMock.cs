@@ -23,6 +23,7 @@ namespace Pinboard.Test
         public List<PinboardCountedTag> ReferenceTags { get; private set; }
         public List<PinboardNote> ReferenceNotes { get; private set; }
         public readonly DateTime ReferenceDate = new DateTime(1977, 8, 10);
+        public readonly string ReferenceSuggestedTagsURL = @"http://www.sun.com/";
 
         public PinboardRequestMock()
         {
