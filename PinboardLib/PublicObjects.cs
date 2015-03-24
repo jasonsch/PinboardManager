@@ -70,13 +70,8 @@ namespace Pinboard
 
         public void SetTags(string TagListString)
         {
-            //
-            // We add the tags in sorted order.
-            //
-            foreach (string Tag in TagListString.Split(' ').OrderBy(a => a))
-            {
-                AddTag(Tag);
-            }
+            TagList.Clear();
+            TagList.AddRange(TagListString.Split(' ').OrderBy(a => a));
         }
 
         public void AddTag(string tag)
@@ -87,17 +82,17 @@ namespace Pinboard
 
         public bool RemoveTag(string tag)
         {
-            bool retval = false;
-
             if (TagList.Contains(tag))
             {
                 TagList.Remove(tag);
-                retval = true;
+                TagList.Sort();
+
+                return true;
             }
-
-            TagList.Sort();
-
-            return retval;
+            else
+            {
+                return false;
+            }
         }
 
         public string Tags
