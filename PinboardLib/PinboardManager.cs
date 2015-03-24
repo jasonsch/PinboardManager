@@ -11,10 +11,27 @@ namespace Pinboard
 {
     public class PinboardManager
     {
+        //
+        // The server will return this as the result code if we try to delete a bookmark
+        // via a URL that doesn't correspond to an actual bookmark.
+        //
+        internal const string DeleteBookmarkErrorString = "item not found";
+
+        //
+        // The server will return this as the result code if we try to add a bookmark
+        // via a URL that already has a corresponding bookmark.
+        //
+        internal const string AddBookmarkErrorString = "item already exists";
+
+        //
+        // The interface used to talk to the server. This will be created only once.
+        //
         private readonly IPinboardRequest RequestObject;
+
+        //
+        // Used to parse the JSON returned by the server.
+        //
         private readonly JavaScriptSerializer JsonSerializer = new JavaScriptSerializer();
-        public const string DeleteBookmarkErrorString = "item not found";
-        public const string AddBookmarkErrorString = "item already exists";
 
         /// <summary>
         /// Constructs a new PinboardManager object using the specified user's account and password.
