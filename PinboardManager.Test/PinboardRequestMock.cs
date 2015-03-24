@@ -25,6 +25,21 @@ namespace Pinboard.Test
         public readonly DateTime ReferenceDate = new DateTime(1977, 8, 10);
         public readonly string ReferenceSuggestedTagsURL = @"http://www.sun.com/";
 
+        public string AccessToken { get; private set; }
+        public string Username { get; private set; }
+        public string Password { get; private set; }
+
+        public PinboardRequestMock(string AccessToken) : this()
+        {
+            this.AccessToken = AccessToken;
+        }
+
+        public PinboardRequestMock(string Username, string Password) : this()
+        {
+            this.Username = Username;
+            this.Password = Password;
+        }
+
         public PinboardRequestMock()
         {
             ReferenceBookmark = new PinboardBookmark("http://www.test.com/", "This is the title", "This is the description");

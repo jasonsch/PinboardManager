@@ -19,8 +19,32 @@ namespace Pinboard.Test
         [TestInitialize]
         public void TestSetup()
         {
-            RequestObject = new PinboardRequestMock();
-            Pinboard = new PinboardManager(RequestObject);
+            Pinboard = new PinboardManager(typeof(PinboardRequestMock), "accesstoken1");
+            RequestObject = (PinboardRequestMock)Pinboard.RequestObject;
+        }
+
+        [TestMethod]
+        public void TestAccessTokenPlumbing()
+        {
+            string TestAccessToken = "user:token";
+
+            PinboardManager mgr = new PinboardManager(typeof(PinboardRequestMock), TestAccessToken);
+            PinboardRequestMock request = (PinboardRequestMock)mgr.RequestObject;
+
+            Assert.IsTrue(request.AccessToken == TestAccessToken);
+        }
+
+        [TestMethod]
+        public void TestUsernamePasswordPlumbing()
+        {
+            string TestUsername = "username";
+            string TestPassword = "password";
+
+            PinboardManager mgr = new PinboardManager(typeof(PinboardRequestMock), TestUsername, TestPassword);
+            PinboardRequestMock request = (PinboardRequestMock)mgr.RequestObject;
+
+            Assert.IsTrue(request.Username == TestUsername);
+            Assert.IsTrue(request.Password == TestPassword);
         }
 
         [TestMethod]

@@ -24,9 +24,10 @@ namespace Pinboard
         internal const string AddBookmarkErrorString = "item already exists";
 
         //
-        // The interface used to talk to the server. This will be created only once.
+        // The interface used to talk to the server. This will be created only once. This
+        // is internal so test code can get a pointer to the mock that we create for them.
         //
-        private readonly IPinboardRequest RequestObject;
+        internal readonly IPinboardRequest RequestObject;
 
         //
         // Used to parse the JSON returned by the server.
@@ -38,7 +39,7 @@ namespace Pinboard
         /// </summary>
         /// <param name="UserName">The user's user name.</param>
         /// <param name="Password">The user's password.</param>
-        public PinboardManager(string UserName, string Password) : this(new PinboardRequest(UserName, Password))
+        public PinboardManager(string UserName, string Password) : this(typeof(PinboardRequest), UserName, Password)
         {
         }
 
@@ -47,13 +48,20 @@ namespace Pinboard
         /// user's settings page (under the "password" tab).
         /// </summary>
         /// <param name="ApiToken">A string of the form "username:hexvalues".</param>
-        public PinboardManager(string ApiToken) : this(new PinboardRequest(ApiToken))
+        public PinboardManager(string ApiToken) : this(typeof(PinboardRequest), ApiToken)
         {
         }
 
-        internal PinboardManager(IPinboardRequest RequestObject = null)
+        internal PinboardManager(Type type, string UserName, string Password)
         {
-             this.RequestObject = RequestObject;
+            var Constructor = type.GetConstructor(new Type[] { typeof(string), typeof(string) });
+            RequestObject = (IPinboardRequest)Constructor.Invoke(new object[] { UserName, Password });
+        }
+
+        internal PinboardManager(Type type, string ApiToken)
+        {
+            var Constructor = type.GetConstructor(new Type[] { typeof(string) });
+            RequestObject = (IPinboardRequest)Constructor.Invoke(new object[] { ApiToken });
         }
 
         /// <summary>

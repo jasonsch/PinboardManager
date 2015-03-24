@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pinboard
 {
-    public interface IPinboardRequest
+    internal interface IPinboardRequest
     {
         void SetRequest(string API);
         void AddParameter(string name, string value);
@@ -29,7 +29,7 @@ namespace Pinboard
 
         public PinboardRequest(string UserName, string Password)
         {
-            string authInfo = UserName + ":" + Password;
+            string authInfo = String.Format("{0}:{1}", UserName, Password);
             authInfo = Convert.ToBase64String(System.Text.Encoding.Default.GetBytes(authInfo));
             WebClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", authInfo);
         }
@@ -41,7 +41,7 @@ namespace Pinboard
 
         public void AddParameter(string name, string value)
         {
-            URL += "&" + name + "=" + HttpUtility.UrlEncode(value);
+            URL += String.Format("&{0}={1}", name, HttpUtility.UrlEncode(value));
         }
 
         public void AddParameter(string name, uint value)
