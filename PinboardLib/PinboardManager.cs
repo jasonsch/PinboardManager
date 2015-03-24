@@ -564,21 +564,14 @@ namespace Pinboard
         #endregion
 
         #region Data Conversion Routines
-        public static bool StringToBool(string str)
+        internal static bool StringToBool(string str)
         {
             return str == "yes";
         }
 
-        public static string BoolToString(bool value)
+        internal static string BoolToString(bool value)
         {
-            if (value)
-            {
-                return "yes";
-            }
-            else
-            {
-                return "no";
-            }
+            return value ? "yes" : "no";
         }
 
         internal static string ConvertTimestamp(DateTime dt)
