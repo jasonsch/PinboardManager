@@ -9,6 +9,9 @@ using System.Web.Script.Serialization;
 
 namespace Pinboard
 {
+    /// <summary>
+    /// Used to communicate with http://pinboard.in/.
+    /// </summary>
     public class PinboardManager
     {
         //
@@ -97,7 +100,8 @@ namespace Pinboard
                 dynamic PostObjects = JsonSerializer.DeserializeObject(content);
                 foreach (Dictionary<string, object> PostObject in PostObjects)
                 {
-                    PinboardBookmark Bookmark = new PinboardBookmark((string)PostObject["href"], (string)PostObject["description"], (string)PostObject["extended"]);
+                    PinboardBookmark Bookmark = new PinboardBookmark((string)PostObject["href"], (string)PostObject["description"]);
+                    Bookmark.Description = (string)PostObject["extended"];
                     Bookmark.SetTags((string)PostObject["tags"]);
                     Bookmark.CreationTime = DateTime.Parse((string)PostObject["time"]);
                     List.Add(Bookmark);
@@ -174,7 +178,8 @@ namespace Pinboard
 
                 System.Diagnostics.Debug.Assert(PostsArray.Length == 1);
                 Dictionary<string, object> PostObject = PostsArray[0] as Dictionary<string, object>;
-                PinboardBookmark Bookmark = new PinboardBookmark((string)PostObject["href"], (string)PostObject["description"], (string)PostObject["extended"]);
+                PinboardBookmark Bookmark = new PinboardBookmark((string)PostObject["href"], (string)PostObject["description"]);
+                Bookmark.Description = (string)PostObject["extended"];
                 Bookmark.Shared = StringToBool((string)PostObject["shared"]);
                 Bookmark.ToRead = StringToBool((string)PostObject["toread"]);
                 Bookmark.SetTags((string)PostObject["tags"]);
@@ -212,7 +217,8 @@ namespace Pinboard
                 dynamic PostObjects = JsonSerializer.DeserializeObject(content);
                 foreach (Dictionary<string, object> PostObject in PostObjects["posts"])
                 {
-                    PinboardBookmark Bookmark = new PinboardBookmark((string)PostObject["href"], (string)PostObject["description"], (string)PostObject["extended"]);
+                    PinboardBookmark Bookmark = new PinboardBookmark((string)PostObject["href"], (string)PostObject["description"]);
+                    Bookmark.Description = (string)PostObject["extended"];
                     Bookmark.Shared = StringToBool((string)PostObject["shared"]);
                     Bookmark.ToRead = StringToBool((string)PostObject["toread"]);
                     Bookmark.SetTags((string)PostObject["tags"]);
@@ -258,7 +264,8 @@ namespace Pinboard
                 dynamic PostObjects = JsonSerializer.DeserializeObject(content);
                 foreach (Dictionary<string, object> PostObject in PostObjects["posts"])
                 {
-                    PinboardBookmark Bookmark = new PinboardBookmark((string)PostObject["href"], (string)PostObject["description"], (string)PostObject["extended"]);
+                    PinboardBookmark Bookmark = new PinboardBookmark((string)PostObject["href"], (string)PostObject["description"]);
+                    Bookmark.Description = (string)PostObject["extended"];
                     Bookmark.Shared = StringToBool((string)PostObject["shared"]);
                     Bookmark.ToRead = StringToBool((string)PostObject["toread"]);
                     Bookmark.SetTags((string)PostObject["tags"]);

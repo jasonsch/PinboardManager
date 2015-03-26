@@ -57,7 +57,8 @@ namespace Pinboard.Test
         [TestMethod]
         public void TestAddValidBookmark()
         {
-            PinboardBookmark bookmark = new PinboardBookmark(TestBookmarkURL, "Test Title", "Test Description");
+            PinboardBookmark bookmark = new PinboardBookmark(TestBookmarkURL, "Test Title");
+            bookmark.Description = "Test Description";
             bookmark.AddTag("test1");
             bookmark.CreationTime = DateTime.Now;
             bookmark.Shared = true;
@@ -88,7 +89,9 @@ namespace Pinboard.Test
         [TestMethod]
         public void TestAddDuplicateBookmark()
         {
-            PinboardBookmark bookmark = new PinboardBookmark(TestBookmarkURL, "Test Title", "Test Description");
+            PinboardBookmark bookmark = new PinboardBookmark(TestBookmarkURL, "Test Title");
+
+            bookmark.Description = "Test Description";
             bookmark.AddTag("test1");
             bookmark.CreationTime = DateTime.Now;
             bookmark.Shared = true;

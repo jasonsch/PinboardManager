@@ -9,6 +9,9 @@ using System.Web.Script.Serialization;
 
 namespace Pinboard
 {
+    /// <summary>
+    /// Represents the number of posts on a particular date.
+    /// </summary>
     public class PinboardPostDate
     {
         public DateTime Date { get; private set; }
@@ -47,19 +50,51 @@ namespace Pinboard
 
     public class PinboardBookmark
     {
+        #region Internal Data
         private readonly List<string> TagList;
+        #endregion
+
+        /// <summary>
+        /// The bookmark's URL. This is never null / empty.
+        /// </summary>
         public string URL { get; private set; }
+
+        /// <summary>
+        /// The bookmark's title. This is never null / empty.
+        /// </summary>
         public string Title { get; set; }
+
+        /// <summary>
+        /// The bookmark's descriptiong. This can be null / empty.
+        /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Timestamp of when the bookmark was created. This can be
+        /// set to an arbitrary value, but defaults to current wall time.
+        /// </summary>
         public DateTime CreationTime { get; set; }
+
+        /// <summary>
+        /// Whether the bookmark is publicly readable. This default to true.
+        /// </summary>
         public bool Shared { get; set; }
+
+        /// <summary>
+        /// Indicates that this bookmark should be added to the user's unread list. This defaults to false.
+        /// </summary>
         public bool ToRead { get; set; }
 
-        public PinboardBookmark(string url, string title, string description = "")
+        /// <summary>
+        /// Construct a new PinboardBookmark object.
+        /// </summary>
+        /// <param name="URL">The bookmark's URL. This cannot be null / empty.</param>
+        /// <param name="Title">The bookmark's title. This cannot be null / empty.</param>
+        public PinboardBookmark(string URL, string Title)
         {
-            this.URL = url;
-            this.Title = title;
-            this.Description = description;
+            this.URL = URL;
+            this.Title = Title;
+            this.Description = null;
 
             Shared = true;
             ToRead = false;
@@ -68,18 +103,31 @@ namespace Pinboard
             TagList = new List<string>();
         }
 
+        /// <summary>
+        /// Specifies the tags for the bookmarks. Any existing tags are overwritten.
+        /// </summary>
+        /// <param name="TagListString">A space-delimited list of the tags for this bookmark.</param>
         public void SetTags(string TagListString)
         {
             TagList.Clear();
             TagList.AddRange(TagListString.Split(' ').OrderBy(a => a));
         }
 
+        /// <summary>
+        /// Add a single tag to the bookmark's existing tags.
+        /// </summary>
+        /// <param name="tag"></param>
         public void AddTag(string tag)
         {
             TagList.Add(tag);
             TagList.Sort();
         }
 
+        /// <summary>
+        /// Remove a single tag from the bookmark's existing tags.
+        /// </summary>
+        /// <param name="tag">The tag to remove.</param>
+        /// <returns>True if that tag was present, false otherwise.</returns>
         public bool RemoveTag(string tag)
         {
             if (TagList.Contains(tag))
@@ -95,6 +143,9 @@ namespace Pinboard
             }
         }
 
+        /// <summary>
+        /// Retrieves the bookmark's tags as a space-delimited string.
+        /// </summary>
         public string TagString
         {
             get
@@ -102,6 +153,10 @@ namespace Pinboard
                 return PinboardManager.FormatTags(TagList);
             }
         }
+
+        /// <summary>
+        /// Retrieves all the tags on this bookmark.
+        /// </summary>
         public string[] Tags
         {
             get
@@ -110,6 +165,10 @@ namespace Pinboard
             }
         }
 
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>A string with the bookmark's URL, Title, and Description.</returns>
         public override string ToString()
         {
             return String.Format("URL: {0}, Title: '{1}', Description:'{2}'", URL, Title, Description);
@@ -127,11 +186,7 @@ namespace Pinboard
         public string Title { get; private set; }
         public uint Length { get; private set; }
 
-        public PinboardNote()
-        {
-        }
-
-        public PinboardNote(string Text, string ID, string Hash, string Title, uint Length, string CreatedTimestamp, string UpdatedTimestamp)
+        internal PinboardNote(string Text, string ID, string Hash, string Title, uint Length, string CreatedTimestamp, string UpdatedTimestamp)
         {
             this.Text = Text;
             this.ID = ID;

@@ -42,7 +42,8 @@ namespace Pinboard.Test
 
         public PinboardRequestMock()
         {
-            ReferenceBookmark = new PinboardBookmark("http://www.test.com/", "This is the title", "This is the description");
+            ReferenceBookmark = new PinboardBookmark("http://www.test.com/", "This is the title");
+            ReferenceBookmark.Description = "This is the description";
             ReferenceBookmark.AddTag("tag1");
             ReferenceBookmark.AddTag("tag2");
             ReferenceBookmark.CreationTime = ReferenceDate;
