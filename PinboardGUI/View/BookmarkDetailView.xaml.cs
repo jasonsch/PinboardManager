@@ -24,16 +24,5 @@ namespace PinboardGUI.View
         {
             InitializeComponent();
         }
-
-        private void BookmarkDetailView_Loaded(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine("ViewModel ==> " + ((MainWindow)Window.GetWindow(this.Parent)));
-            // this.DataContext = ((MainWindow)Window.GetWindow(this)).ViewModel;
-        }
-
-        private void UserControl_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine("context ===> " + this.DataContext);
-        } 
     }
 }

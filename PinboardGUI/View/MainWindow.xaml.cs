@@ -22,13 +22,23 @@ namespace PinboardGUI
     public partial class MainWindow : Window
     {
         public PinboardViewModel ViewModel { get; private set; }
+        public string ApiToken { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
+        }
 
-            ViewModel = new PinboardViewModel(Dispatcher, "");
-            this.DataContext = ViewModel;
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window w = new ApiTokenPromptWindow(this);
+            bool? Result = w.ShowDialog();
+
+            if ((bool)Result)
+            {
+                ViewModel = new PinboardViewModel(Dispatcher, ApiToken);
+                this.DataContext = ViewModel;
+            }
         }
     }
 }

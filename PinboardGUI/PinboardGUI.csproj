@@ -53,6 +53,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\ApiTokenPromptWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\BookmarkDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -66,6 +70,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\PinboardViewModel.cs" />
+    <Compile Include="View\ApiTokenPromptWindow.xaml.cs">
+      <DependentUpon>ApiTokenPromptWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\BookmarkDetailView.xaml.cs">
       <DependentUpon>BookmarkDetailView.xaml</DependentUpon>
     </Compile>

@@ -2,13 +2,14 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:PinboardGUI.View;assembly="
-        Title="Pinboard Bookmarks" Height="350" Width="525">
+        Title="Pinboard Bookmarks" Height="350" Width="525" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
     <ListView Grid.Column="0" Name="BookmarkListControl" FocusManager.FocusedElement="{Binding ElementName=BookmarkListControl}" TextSearch.TextPath="URL" ItemsSource="{Binding BookmarkList}" SelectedIndex="0" SelectedItem="{Binding SelectedItem}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+        <!-- TODO
         <ListView.InputBindings>
             <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding CopyPaswordToClipboard}"/>
             <KeyBinding Key="Enter" Command="{Binding CopyPasswordToClipboard}"/>
@@ -18,6 +19,7 @@
             <KeyBinding Key="O" Modifiers="Control" Command="Open"/>
             <KeyBinding Key="N" Modifiers="Control" Command="New"/>
         </ListView.InputBindings>
+        -->
         <ListView.CommandBindings>
             <!-- TODO <CommandBinding Command="Open" Executed="ConfigDialog_Show" CanExecute="ConfigDialog_Show_CanExecute"/> -->
             <!-- TODO <CommandBinding Command="New" Executed="NewPasswordDialog_Show" CanExecute="NewPasswordDialog_Show_CanExecute"/> -->

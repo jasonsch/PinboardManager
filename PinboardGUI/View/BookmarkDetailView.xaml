@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Loaded="BookmarkDetailView_Loaded" MouseDown="UserControl_MouseDown">
+             d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -13,15 +13,15 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="0">
-            <TextBlock Text="URL:" Height="40" VerticalAlignment="Center"/>
+            <TextBlock Text="URL:" Height="40" Margin="10,0,0,0" VerticalAlignment="Center"/>
             <TextBox Margin="10,0,0,0" Name="URL" Text="{Binding Path=URL, Mode=OneWay}" Height="40" VerticalAlignment="Center" Width="200"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="1">
-            <TextBlock Text="Title:" Height="40" VerticalAlignment="Center"/>
+            <TextBlock Text="Title:" Height="40" Margin="10,0,0,0" VerticalAlignment="Center"/>
             <TextBox Margin="10,0,0,0" Name="Title" Text="{Binding Path=Title, Mode=OneWay}" Height="40" VerticalAlignment="Center" Width="200"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2">
-            <TextBlock Text="Description:" Height="40" VerticalAlignment="Center"/>
+            <TextBlock Text="Description:" Height="40" Margin="10,0,0,0" VerticalAlignment="Center"/>
             <TextBox Margin="10,0,0,0" Name="Description" Text="{Binding Path=Description, Mode=OneWay}" Height="40" VerticalAlignment="Center" Width="200"/>
         </StackPanel>
     </Grid>

@@ -19,6 +19,7 @@ namespace PinboardGUI.ViewModel
 
         public PinboardViewModel(System.Windows.Threading.Dispatcher Dispatcher, string ApiToken)
         {
+            System.Diagnostics.Debug.WriteLine("ApiToken ==> " + ApiToken); // TODO
             this.Dispatcher = Dispatcher;
             Pinboard = new PinboardManager(ApiToken);
             BookmarkList = new ObservableCollection<PinboardBookmark>();
