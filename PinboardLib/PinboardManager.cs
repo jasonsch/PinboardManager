@@ -617,7 +617,7 @@ namespace Pinboard
 
         internal static string FormatTags(List<string> TagList)
         {
-            return string.Join(",", TagList);
+            return string.Join(" ", TagList);
         }
         #endregion
     }
