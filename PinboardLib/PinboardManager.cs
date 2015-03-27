@@ -114,7 +114,7 @@ namespace Pinboard
         /// <summary>
         /// Deletes a specified bookmark.
         /// </summary>
-        /// <param name="url">The PinboardBookmark's URL to delete.</param>
+        /// <param name="URL">The PinboardBookmark's URL to delete.</param>
         /// <returns>true if successful, false if the user didn't have a bookmark with the specified URL.</returns>
         public Task<bool> DeleteBookmark(string URL)
         {
@@ -357,6 +357,10 @@ namespace Pinboard
         #endregion
 
         #region Tag-Related APIs
+        /// <summary>
+        /// Retrieves a list of all of the user's tags.
+        /// </summary>
+        /// <returns>A list of PinboardCountedTag objects specifying the user's tags and how many times each is used.</returns>
         public Task<List<PinboardCountedTag>> GetTags()
         {
             RequestObject.SetRequest("tags/get");
@@ -436,7 +440,7 @@ namespace Pinboard
         /// <returns>A PinboardSuggestedTags objects with the two hashes.</returns>
         public Task<PinboardSuggestedTags> GetSuggestedTags(string url)
         {
-            PinboardSuggestedTags Suggestions = new PinboardSuggestedTags();
+            PinboardSuggestedTags Suggestions = new PinboardSuggestedTags(url);
 
             //
             // The URL is a required parameter so let's just go ahead and validate it locally.

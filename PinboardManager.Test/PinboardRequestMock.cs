@@ -54,7 +54,7 @@ namespace Pinboard.Test
             ReferencePostDates.Add(new PinboardPostDate("1977-08-10", 7));
             ReferencePostDates.Add(new PinboardPostDate("1982-02-10", 1));
 
-            ReferenceSuggestedTags = new PinboardSuggestedTags();
+            ReferenceSuggestedTags = new PinboardSuggestedTags("http://www.sun.com/");
             ReferenceSuggestedTags.popular = new string[] { "hardware" };
             ReferenceSuggestedTags.recommended = new string[] { "sun", "solaris", "Hardware", "java", "Bookmarks_bar", "computer", "Computer_Hardware", "Bookmarks_Menu", "ComputerHardware", "Software" };
 

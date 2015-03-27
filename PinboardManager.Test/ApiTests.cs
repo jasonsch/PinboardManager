@@ -6,9 +6,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Pinboard.Test
 {
-    /// <summary>
-    /// This tests the 
-    /// </summary>
     [TestClass]
     public partial class PinboardTests
     {
