@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
@@ -11,7 +13,7 @@ namespace Pinboard.Test
     class PinboardRequestMock : IPinboardRequest
     {
         private string API;
-        private Dictionary<string, string> Parameters;
+        private readonly Dictionary<string, string> Parameters = new Dictionary<string, string>();
         private readonly JavaScriptSerializer JSSerializer = new JavaScriptSerializer();
 
         /// <summary>
@@ -22,7 +24,7 @@ namespace Pinboard.Test
         public PinboardSuggestedTags ReferenceSuggestedTags { get; private set; }
         public List<PinboardCountedTag> ReferenceTags { get; private set; }
         public List<PinboardNote> ReferenceNotes { get; private set; }
-        public readonly DateTime ReferenceDate = new DateTime(1977, 8, 10);
+        public readonly DateTime ReferenceDate = new DateTime(2015, 3, 25, 23, 51, 54);
         public readonly string ReferenceSuggestedTagsURL = @"http://www.sun.com/";
 
         public string AccessToken { get; private set; }
@@ -72,7 +74,7 @@ namespace Pinboard.Test
         public void SetRequest(string API)
         {
             this.API = API;
-            Parameters = new Dictionary<string, string>();
+            Parameters.Clear();
         }
 
         public void AddParameter(string name, string value)
@@ -148,35 +150,24 @@ namespace Pinboard.Test
             {
                 return Task.FromResult<string>(GetNoteList());
             }
-            else if (API.StartsWith("notes/"))
-            {
-                return Task.FromResult<string>(GetNote((API.Split('/'))[1]));
-            }
             else
             {
-                System.Diagnostics.Debug.Assert(false, "Invalid API");
+                System.Diagnostics.Debug.Assert(API.StartsWith("notes/"));
+                return Task.FromResult<string>(GetNote((API.Split('/'))[1]));
             }
-
-            // TODO
-            return new Task<string>(null);
         }
 
         #region API stubs
-        private string ConvertTimestamp(DateTime dt)
-        {
-            return dt.ToString("s") + "Z";
-        }
-
         private string GetLastUpdatedTime()
         {
-            Parameters.Add("update_time", ConvertTimestamp(new DateTime(1977, 08, 10)));
-            return JSSerializer.Serialize(Parameters);
+            return LoadResourceText("lastupdate.txt");
         }
 
         private string AddBookmark()
         {
             Dictionary<string, string> hash = new Dictionary<string, string>();
 
+            // TODO
             if (String.IsNullOrEmpty(Parameters["url"]))
             {
                 hash["result_code"] = "missing url";
@@ -187,11 +178,11 @@ namespace Pinboard.Test
             }
             else if (Parameters["replace"] != "yes")
             {
-                hash["result_code"] = PinboardManager.AddBookmarkErrorString;
+                hash["result_code"] = "item already exists";
             }
             else
             {
-                hash["result_code"] = "done";
+                hash["result_code"] = PinboardManager.SuccessStatusString;
             }
 
             return JSSerializer.Serialize(hash);
@@ -252,7 +243,7 @@ namespace Pinboard.Test
                 Bookmark["extended"] = ReferenceBookmark.Description;
                 Bookmark["meta"] = "somemetastring";
                 Bookmark["hash"] = "somehashstring";
-                Bookmark["time"] = ConvertTimestamp(ReferenceBookmark.CreationTime);
+                Bookmark["time"] = PinboardManager.ConvertTimestamp(ReferenceBookmark.CreationTime);
                 Bookmark["shared"] = PinboardStringFromBool(ReferenceBookmark.Shared);
                 Bookmark["toread"] = PinboardStringFromBool(ReferenceBookmark.ToRead);
                 Bookmark["tags"] = ReferenceBookmark.TagString;
@@ -324,7 +315,7 @@ namespace Pinboard.Test
             Bookmark["extended"] = ReferenceBookmark.Description;
             Bookmark["meta"] = "somemetastring";
             Bookmark["hash"] = "somehashstring";
-            Bookmark["time"] = ConvertTimestamp(ReferenceBookmark.CreationTime);
+            Bookmark["time"] = PinboardManager.ConvertTimestamp(ReferenceBookmark.CreationTime);
             Bookmark["shared"] = PinboardStringFromBool(ReferenceBookmark.Shared);
             Bookmark["toread"] = PinboardStringFromBool(ReferenceBookmark.ToRead);
             Bookmark["tags"] = ReferenceBookmark.TagString;
@@ -343,7 +334,7 @@ namespace Pinboard.Test
             Bookmark["extended"] = ReferenceBookmark.Description;
             Bookmark["meta"] = "fslfjsaklfjsdflj"; // TODO
             Bookmark["hash"] = "ksjdflksjfslkdf"; // TODO
-            Bookmark["time"] = ConvertTimestamp(ReferenceBookmark.CreationTime);
+            Bookmark["time"] = PinboardManager.ConvertTimestamp(ReferenceBookmark.CreationTime);
             Bookmark["shared"] = PinboardStringFromBool(ReferenceBookmark.Shared);
             Bookmark["toread"] = PinboardStringFromBool(ReferenceBookmark.ToRead);
             Bookmark["tags"] = ReferenceBookmark.TagString;
@@ -474,5 +465,12 @@ namespace Pinboard.Test
             return JSSerializer.Serialize(NoteHash);
         }
         #endregion
+
+        private static string LoadResourceText(string ResourceName)
+        {
+            ResourceName = "PinboardManager.Test.JSON." + ResourceName;
+
+            return (new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(ResourceName))).ReadToEnd();
+        }
     }
 }

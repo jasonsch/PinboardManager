@@ -64,7 +64,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="JSON\accesstoken1.txt" />
+    <EmbeddedResource Include="JSON\accesstoken1.txt" />
+    <EmbeddedResource Include="JSON\lastupdate.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

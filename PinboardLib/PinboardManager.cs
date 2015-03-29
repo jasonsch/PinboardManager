@@ -15,16 +15,9 @@ namespace Pinboard
     public class PinboardManager
     {
         //
-        // The server will return this as the result code if we try to delete a bookmark
-        // via a URL that doesn't correspond to an actual bookmark.
+        // This is the status code returned by the server if the API call succeeds.
         //
-        internal const string DeleteBookmarkErrorString = "item not found";
-
-        //
-        // The server will return this as the result code if we try to add a bookmark
-        // via a URL that already has a corresponding bookmark.
-        //
-        internal const string AddBookmarkErrorString = "item already exists";
+        internal const string SuccessStatusString = "done";
 
         //
         // The interface used to talk to the server. This will be created only once. This
@@ -118,14 +111,6 @@ namespace Pinboard
         /// <returns>true if successful, false if the user didn't have a bookmark with the specified URL.</returns>
         public Task<bool> DeleteBookmark(string URL)
         {
-            //
-            // The URL is a required parameter so let's do some light local validation.
-            //
-            if (String.IsNullOrEmpty(URL))
-            {
-                return Task.FromResult<bool>(false);
-            }
-
             RequestObject.SetRequest("posts/delete");
 
             RequestObject.AddParameter("url", URL);
@@ -135,15 +120,14 @@ namespace Pinboard
                 string content = task.Result;
 
                 Dictionary<string, object> json = (Dictionary<string, object>)JsonSerializer.DeserializeObject(content);
-                if ((string)json["result_code"] == DeleteBookmarkErrorString)
+                if ((string)json["result_code"] == SuccessStatusString)
                 {
-                    //
-                    // The user doesn't have a bookmark with that URL.
-                    //
+                    return true;
+                }
+                else
+                {
                     return false;
                 }
-
-                return true;
             });
         }
 
@@ -282,17 +266,9 @@ namespace Pinboard
         /// </summary>
         /// <param name="Bookmark">A PinboardBookmark to add.</param>
         /// <param name="ReplaceExisting">If true then any existing bookmark for the specified URL will be replaced. If a bookmark already exists for the given URL and this parameter is false then the function will fail.</param>
-        /// <returns>True if successful, false otherwise.</returns>
+        /// <returns>true if successful, false otherwise.</returns>
         public Task<bool> AddBookmark(PinboardBookmark Bookmark, bool ReplaceExisting)
         {
-            //
-            // The URL and Title are required parameters so let's just go ahead and validate them locally.
-            //
-            if (String.IsNullOrEmpty(Bookmark.URL) || String.IsNullOrEmpty(Bookmark.Title))
-            {
-                return Task.FromResult<bool>(false);
-            }
-
             RequestObject.SetRequest("posts/add");
 
             RequestObject.AddParameter("url", Bookmark.URL);
@@ -309,12 +285,14 @@ namespace Pinboard
                 string content = task.Result;
                 Dictionary<string, object> hash = (Dictionary<string, Object>)JsonSerializer.DeserializeObject(content);
 
-                if ((string)hash["result_code"] != AddBookmarkErrorString)
+                if ((string)hash["result_code"] == SuccessStatusString)
                 {
                     return true;
                 }
-
-                return false;
+                else
+                {
+                    return false;
+                }
             });
         }
 
