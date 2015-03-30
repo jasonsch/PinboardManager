@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Script.Serialization;
 using Pinboard;
 
@@ -13,7 +14,9 @@ namespace Pinboard.Test
     class PinboardRequestMock : IPinboardRequest
     {
         private string API;
+        private string URL; // TODO
         private readonly Dictionary<string, string> Parameters = new Dictionary<string, string>();
+        private readonly Dictionary<string, bool> Bookmarks = new Dictionary<string, bool>();
         private readonly JavaScriptSerializer JSSerializer = new JavaScriptSerializer();
 
         /// <summary>
@@ -74,12 +77,14 @@ namespace Pinboard.Test
         public void SetRequest(string API)
         {
             this.API = API;
+            this.URL = "?format=json";
             Parameters.Clear();
         }
 
         public void AddParameter(string name, string value)
         {
             Parameters[name] = value;
+            URL += String.Format("&{0}={1}", name, HttpUtility.UrlEncode(value));
         }
 
         public void AddParameter(string name, uint value)
@@ -166,26 +171,29 @@ namespace Pinboard.Test
         private string AddBookmark()
         {
             Dictionary<string, string> hash = new Dictionary<string, string>();
+            System.Diagnostics.Debug.WriteLine("URL ==> " + URL); // TODO
 
-            // TODO
             if (String.IsNullOrEmpty(Parameters["url"]))
             {
-                hash["result_code"] = "missing url";
+                System.Diagnostics.Debug.WriteLine("No url ..."); // TODO
+                return LoadResourceText("AddNewBookmarkNoURL.txt");
             }
             else if (String.IsNullOrEmpty(Parameters["description"]))
             {
-                hash["result_code"] = "missing title";
+                System.Diagnostics.Debug.WriteLine("no title ..."); // TODO
+                return LoadResourceText("AddNewBookmarkNoTitle.txt");
             }
-            else if (Parameters["replace"] != "yes")
+            else if (Bookmarks.ContainsKey(Parameters["url"]) && Parameters["replace"] != "yes")
             {
-                hash["result_code"] = "item already exists";
+                System.Diagnostics.Debug.WriteLine("bookmark already exists and replace is {0}", Parameters["replace"]); // TODO
+                return LoadResourceText("AddNewBookmarkAlreadyExists.txt");
             }
             else
             {
-                hash["result_code"] = PinboardManager.SuccessStatusString;
+                System.Diagnostics.Debug.WriteLine("bookmark is golden ..."); // TODO
+                Bookmarks[Parameters["url"]] = true;
+                return LoadResourceText("AddNewBookmark.txt");
             }
-
-            return JSSerializer.Serialize(hash);
         }
 
         private string DeleteBookmark()
@@ -194,14 +202,20 @@ namespace Pinboard.Test
 
             if (String.IsNullOrEmpty(Parameters["url"]))
             {
-                hash["result_code"] = "invalid parameter";
+                System.Diagnostics.Debug.WriteLine("no url ..."); // TODO
+                return LoadResourceText("delete_no_url.txt");
+            }
+            else if (Bookmarks.ContainsKey(Parameters["url"]))
+            {
+                System.Diagnostics.Debug.WriteLine("{0} is in our hash", Parameters["url"]); // TODO
+                Bookmarks.Remove(Parameters["url"]);
+                return LoadResourceText("delete_valid.txt");
             }
             else
             {
-                hash["result_code"] = "done";
+                System.Diagnostics.Debug.WriteLine("COuldn't find {0} in our hash ...", Parameters["url"]); // TODO
+                return LoadResourceText("delete_non_existent.txt");
             }
-
-            return JSSerializer.Serialize(hash);
         }
 
         private bool PinboardBoolFromString(string str)

@@ -88,12 +88,7 @@ namespace Pinboard.Test
         {
             PinboardBookmark bookmark = new PinboardBookmark(TestBookmarkURL, "Test Title");
 
-            bookmark.Description = "Test Description";
-            bookmark.AddTag("test1");
-            bookmark.CreationTime = DateTime.Now;
-            bookmark.Shared = true;
-            bookmark.ToRead = false;
-
+            Pinboard.AddBookmark(bookmark, true);
             bool b = Pinboard.AddBookmark(bookmark, false).Result;
             Assert.IsFalse(b);
         }
@@ -126,10 +121,37 @@ namespace Pinboard.Test
         }
 
         [TestMethod]
-        public void TestDeleteBookmark()
+        public void TestDeleteValidBookmark()
         {
-            bool b = Pinboard.DeleteBookmark(TestBookmarkURL).Result;
+            bool b;
+
+            PinboardBookmark bookmark = new PinboardBookmark(TestBookmarkURL, "Title");
+            b = Pinboard.AddBookmark(bookmark, true).Result;
             Assert.IsTrue(b);
+
+            b = Pinboard.DeleteBookmark(TestBookmarkURL).Result;
+            Assert.IsTrue(b);
+        }
+
+        [TestMethod]
+        public void TestDeleteNonexistentBookmark()
+        {
+            bool b;
+
+            b = Pinboard.DeleteBookmark(Guid.NewGuid().ToString()).Result;
+            Assert.IsFalse(b);
+        }
+
+        [TestMethod]
+        public void TestDeleteBoomarkWithNoURL()
+        {
+            bool b;
+
+            b = Pinboard.DeleteBookmark(null).Result;
+            Assert.IsFalse(b);
+
+            b = Pinboard.DeleteBookmark("").Result;
+            Assert.IsFalse(b);
         }
 
         [TestMethod]
