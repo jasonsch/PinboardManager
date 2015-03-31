@@ -16,7 +16,7 @@ namespace Pinboard.Test
         private string API;
         private string URL; // TODO
         private readonly Dictionary<string, string> Parameters = new Dictionary<string, string>();
-        private readonly Dictionary<string, bool> Bookmarks = new Dictionary<string, bool>();
+        private readonly Dictionary<string, PinboardBookmark> Bookmarks = new Dictionary<string, PinboardBookmark>();
         private readonly JavaScriptSerializer JSSerializer = new JavaScriptSerializer();
 
         /// <summary>
@@ -37,6 +37,30 @@ namespace Pinboard.Test
         public PinboardRequestMock(string AccessToken) : this()
         {
             this.AccessToken = AccessToken;
+		    // {"href":"http:\/\/news.discovery.com\/tech\/gear-and-gadgets\/how-to-really-drive-across-the-us-hitting-all-major-landmarks-150309.htm",
+            //  "description":"Map of US with Major Landmarks (for roadtrip)",
+            // "extended":"",
+            // "meta":"9ac82954f4d5da855d5362f78356f834",
+            // "hash":"c3a970f390fb1a4f2a49ec176a07f0c2",
+            // "time":"2015-03-11T20:01:51Z",
+            // "shared":"yes",
+            // "toread":"no",
+            // "tags":"travel todo"},
+            dynamic UserInfo = JSSerializer.DeserializeObject(LoadResourceText(AccessToken + ".txt"));
+
+            /*
+            foreach (dynamic post in UserInfo["posts"])
+            {
+                System.Diagnostics.Debug.WriteLine("href ==> " + (string)post["href"]);
+                PinboardBookmark bookmark = new PinboardBookmark((string)post["href"], (string)post["description"]);
+                bookmark.Description = (string)post["extended"];
+                bookmark.CreationTime = DateTime.Parse((string)post["time"]);
+                bookmark.SetTags((string)post["tags"]);
+                bookmark.Shared = PinboardManager.StringToBool((string)post["shared"]);
+                bookmark.ToRead = PinboardManager.StringToBool((string)post["toread"]);
+                Bookmarks[Parameters["url"]] = bookmark;
+            }
+            */
         }
 
         public PinboardRequestMock(string Username, string Password) : this()
@@ -191,7 +215,22 @@ namespace Pinboard.Test
             else
             {
                 System.Diagnostics.Debug.WriteLine("bookmark is golden ..."); // TODO
-                Bookmarks[Parameters["url"]] = true;
+		    // {"href":"http:\/\/news.discovery.com\/tech\/gear-and-gadgets\/how-to-really-drive-across-the-us-hitting-all-major-landmarks-150309.htm",
+            //  "description":"Map of US with Major Landmarks (for roadtrip)",
+            // "extended":"",
+            // "meta":"9ac82954f4d5da855d5362f78356f834",
+            // "hash":"c3a970f390fb1a4f2a49ec176a07f0c2",
+            // "time":"2015-03-11T20:01:51Z",
+            // "shared":"yes",
+            // "toread":"no",
+            // "tags":"travel todo"},
+                PinboardBookmark bookmark = new PinboardBookmark(Parameters["url"], Parameters["description"]);
+                bookmark.Description = Parameters["extended"];
+                bookmark.CreationTime = DateTime.Parse(Parameters["dt"]);
+                bookmark.SetTags(Parameters["tags"]);
+                bookmark.Shared = PinboardManager.StringToBool(Parameters["shared"]);
+                bookmark.ToRead = PinboardManager.StringToBool(Parameters["toread"]);
+                Bookmarks[Parameters["url"]] = bookmark;
                 return LoadResourceText("AddNewBookmark.txt");
             }
         }
@@ -484,6 +523,7 @@ namespace Pinboard.Test
         {
             ResourceName = "PinboardManager.Test.JSON." + ResourceName;
 
+            System.Diagnostics.Debug.WriteLine("ResourceName ==> " + ResourceName);
             return (new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(ResourceName))).ReadToEnd();
         }
     }

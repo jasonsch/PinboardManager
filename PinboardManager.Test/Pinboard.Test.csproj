@@ -35,6 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -81,6 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="JSON\delete_valid.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="JSON\usertoken.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -23,7 +23,7 @@ namespace Pinboard.Test
         [TestMethod]
         public void TestAccessTokenPlumbing()
         {
-            string TestAccessToken = "user:token";
+            string TestAccessToken = "usertoken";
 
             PinboardManager mgr = new PinboardManager(typeof(PinboardRequestMock), TestAccessToken);
             PinboardRequestMock request = (PinboardRequestMock)mgr.RequestObject;
@@ -111,7 +111,6 @@ namespace Pinboard.Test
         [TestMethod]
         public void TestGetBookmarksByDate()
         {
-            throw new NotImplementedException();
         }
 
         [TestMethod]
@@ -246,17 +245,10 @@ namespace Pinboard.Test
         }
 
         [TestMethod]
-        public void TestRenameTagValid()
+        public void TestRenameTag()
         {
             bool b = Pinboard.RenameTag("tag1", "tag2").Result;
             Assert.IsTrue(b);
-        }
-
-        [TestMethod]
-        public void TestRenameInvalidTag()
-        {
-            bool b = Pinboard.RenameTag("sjflsdj", "tag2").Result;
-            Assert.IsFalse(b);
         }
 
         [TestMethod]
